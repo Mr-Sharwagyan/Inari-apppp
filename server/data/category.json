@@ -1,0 +1,34 @@
+[
+  {
+    "_id": "7s3tmh50impihh95l",
+    "createdAt": "2026-05-23T15:08:38.169Z",
+    "name": "Grains",
+    "slug": "grains",
+    "description": "Fresh cereals, wheat, barley, and rice crops.",
+    "image": "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "_id": "tki2dibz2mpihh95m",
+    "createdAt": "2026-05-23T15:08:38.170Z",
+    "name": "Vegetables",
+    "slug": "vegetables",
+    "description": "Freshly harvested organic vegetables.",
+    "image": "https://images.unsplash.com/photo-1597362925123-77861d3fbac7?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "_id": "zz9gccm8tmpihh95m",
+    "createdAt": "2026-05-23T15:08:38.170Z",
+    "name": "Fruits",
+    "slug": "fruits",
+    "description": "Organic farm orchard fruits.",
+    "image": "https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?auto=format&fit=crop&w=600&q=80"
+  },
+  {
+    "_id": "b78ep0b5xmpihh95m",
+    "createdAt": "2026-05-23T15:08:38.170Z",
+    "name": "Dairy",
+    "slug": "dairy",
+    "description": "Farm fresh organic milk, cheese, and butter.",
+    "image": "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80"
+  }
+]

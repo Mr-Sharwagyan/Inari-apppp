@@ -1,0 +1,77 @@
+[
+  {
+    "_id": "8tiimq6o4mpihh95n",
+    "createdAt": "2026-05-23T15:08:38.171Z",
+    "name": "Organic Winter Wheat",
+    "description": "Premium quality organic winter wheat, milled to perfection. High protein content ideal for artisanal breads and baking.",
+    "price": 2.5,
+    "unit": "kg",
+    "category": "Grains",
+    "farmer": "0pjgq0np2mpihh95j",
+    "stock": 500,
+    "images": [
+      "https://images.unsplash.com/photo-1574323347407-f5e1ad6d020b?auto=format&fit=crop&w=600&q=80"
+    ],
+    "status": "available"
+  },
+  {
+    "_id": "dfesg99ntmpihh95o",
+    "createdAt": "2026-05-23T15:08:38.172Z",
+    "name": "Heirloom Beefsteak Tomatoes",
+    "description": "Juicy, vine-ripened organic heirloom beefsteak tomatoes. Perfect for summer salads, sandwiches, and rich tomato sauces.",
+    "price": 4.8,
+    "unit": "kg",
+    "category": "Vegetables",
+    "farmer": "0pjgq0np2mpihh95j",
+    "stock": 120,
+    "images": [
+      "https://images.unsplash.com/photo-1592924357228-91a4daadcfea?auto=format&fit=crop&w=600&q=80"
+    ],
+    "status": "available"
+  },
+  {
+    "_id": "hipiqxfvpmpihh95o",
+    "createdAt": "2026-05-23T15:08:38.172Z",
+    "name": "Sweet Honeycrisp Apples",
+    "description": "Crisp, sweet, and slightly tart organic Honeycrisp apples freshly handpicked from local orchards.",
+    "price": 3.9,
+    "unit": "kg",
+    "category": "Fruits",
+    "farmer": "0pjgq0np2mpihh95j",
+    "stock": 80,
+    "images": [
+      "https://images.unsplash.com/photo-1619546813926-a78fa6372cd2?auto=format&fit=crop&w=600&q=80"
+    ],
+    "status": "available"
+  },
+  {
+    "_id": "05rauea51mpihh95o",
+    "createdAt": "2026-05-23T15:08:38.172Z",
+    "name": "Fresh Jersey Whole Milk",
+    "description": "Non-homogenized, pasteurized farm fresh whole milk from grass-fed Jersey cows. Rich, creamy, and loaded with nutrients.",
+    "price": 3.2,
+    "unit": "L",
+    "category": "Dairy",
+    "farmer": "0pjgq0np2mpihh95j",
+    "stock": 60,
+    "images": [
+      "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80"
+    ],
+    "status": "available"
+  },
+  {
+    "_id": "jy7getcwjmpihh95p",
+    "createdAt": "2026-05-23T15:08:38.173Z",
+    "name": "Organic Sweet Corn",
+    "description": "Golden sweet corn ears freshly picked in the morning. Exceptionally sweet and perfect for grilling or steaming.",
+    "price": 1.2,
+    "unit": "piece",
+    "category": "Vegetables",
+    "farmer": "0pjgq0np2mpihh95j",
+    "stock": 50,
+    "images": [
+      "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=600&q=80"
+    ],
+    "status": "available"
+  }
+]

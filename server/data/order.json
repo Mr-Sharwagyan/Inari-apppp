@@ -1,0 +1,62 @@
+[
+  {
+    "_id": "6lf9kkhzvmpihh95r",
+    "createdAt": "2026-05-18T15:08:38.175Z",
+    "customer": "7hw9w1bsempihh95k",
+    "items": [
+      {
+        "product": "8tiimq6o4mpihh95n",
+        "name": "Organic Winter Wheat",
+        "quantity": 10,
+        "price": 2.5,
+        "farmer": "0pjgq0np2mpihh95j",
+        "unit": "kg"
+      },
+      {
+        "product": "dfesg99ntmpihh95o",
+        "name": "Heirloom Beefsteak Tomatoes",
+        "quantity": 5,
+        "price": 4.8,
+        "farmer": "0pjgq0np2mpihh95j",
+        "unit": "kg"
+      }
+    ],
+    "totalAmount": 49,
+    "shippingAddress": {
+      "fullName": "Arthur Customer",
+      "addressLine": "250 Market St, Apt 4B",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94102",
+      "phone": "+1 (555) 0188"
+    },
+    "paymentStatus": "paid",
+    "orderStatus": "delivered"
+  },
+  {
+    "_id": "wqme0ep6dmpihh95s",
+    "createdAt": "2026-05-22T15:08:38.175Z",
+    "customer": "7hw9w1bsempihh95k",
+    "items": [
+      {
+        "product": "hipiqxfvpmpihh95o",
+        "name": "Sweet Honeycrisp Apples",
+        "quantity": 3,
+        "price": 3.9,
+        "farmer": "0pjgq0np2mpihh95j",
+        "unit": "kg"
+      }
+    ],
+    "totalAmount": 11.7,
+    "shippingAddress": {
+      "fullName": "Arthur Customer",
+      "addressLine": "250 Market St, Apt 4B",
+      "city": "San Francisco",
+      "state": "CA",
+      "zipCode": "94102",
+      "phone": "+1 (555) 0188"
+    },
+    "paymentStatus": "paid",
+    "orderStatus": "processing"
+  }
+]

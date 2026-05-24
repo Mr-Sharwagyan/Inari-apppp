@@ -1,0 +1,82 @@
+[
+  {
+    "_id": "q73oegxs5mpihh95q",
+    "createdAt": "2026-05-23T15:08:38.174Z",
+    "product": "8tiimq6o4mpihh95n",
+    "productName": "Organic Winter Wheat",
+    "farmer": "0pjgq0np2mpihh95j",
+    "batchNumber": "B-WHEAT-001",
+    "harvestDate": "2026-05-23T15:08:38.173Z",
+    "expiryDate": "2026-11-23T15:08:38.173Z",
+    "qualityGrade": "A",
+    "location": "Silo 2A",
+    "quantity": 500,
+    "history": [
+      {
+        "quantity": 500,
+        "type": "harvest",
+        "notes": "Grain bin load 1"
+      }
+    ]
+  },
+  {
+    "_id": "drzuh88ljmpihh95q",
+    "createdAt": "2026-05-23T15:08:38.174Z",
+    "product": "dfesg99ntmpihh95o",
+    "productName": "Heirloom Beefsteak Tomatoes",
+    "farmer": "0pjgq0np2mpihh95j",
+    "batchNumber": "B-TOMATO-09",
+    "harvestDate": "2026-05-23T15:08:38.173Z",
+    "expiryDate": "2026-06-06T15:08:38.173Z",
+    "qualityGrade": "A",
+    "location": "Cold Room 1",
+    "quantity": 80,
+    "history": [
+      {
+        "quantity": 80,
+        "type": "harvest",
+        "notes": "Morning harvest"
+      }
+    ]
+  },
+  {
+    "_id": "lqgdscymympihh95q",
+    "createdAt": "2026-05-23T15:08:38.174Z",
+    "product": "dfesg99ntmpihh95o",
+    "productName": "Heirloom Beefsteak Tomatoes",
+    "farmer": "0pjgq0np2mpihh95j",
+    "batchNumber": "B-TOMATO-10",
+    "harvestDate": "2026-05-23T15:08:38.173Z",
+    "expiryDate": "2026-06-06T15:08:38.173Z",
+    "qualityGrade": "B",
+    "location": "Cold Room 2",
+    "quantity": 40,
+    "history": [
+      {
+        "quantity": 40,
+        "type": "harvest",
+        "notes": "Midday harvest"
+      }
+    ]
+  },
+  {
+    "_id": "5opl72oftmpihh95r",
+    "createdAt": "2026-05-23T15:08:38.175Z",
+    "product": "05rauea51mpihh95o",
+    "productName": "Fresh Jersey Whole Milk",
+    "farmer": "0pjgq0np2mpihh95j",
+    "batchNumber": "B-MILK-784",
+    "harvestDate": "2026-05-23T15:08:38.173Z",
+    "expiryDate": "2026-05-30T15:08:38.173Z",
+    "qualityGrade": "A",
+    "location": "Dairy Cooler 3",
+    "quantity": 60,
+    "history": [
+      {
+        "quantity": 60,
+        "type": "harvest",
+        "notes": "Morning milking"
+      }
+    ]
+  }
+]

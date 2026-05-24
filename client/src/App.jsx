@@ -1,0 +1,74 @@
+import React from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import MarketplaceLayout from './layouts/MarketplaceLayout';
+import DashboardLayout from './layouts/DashboardLayout';
+import ProtectedRoute from './components/ProtectedRoute';
+
+import Home from './pages/Home';
+import Shop from './pages/Shop';
+import ProductDetail from './pages/ProductDetail';
+import Cart from './pages/Cart';
+import Auth from './pages/Auth';
+import CustomerDashboard from './pages/CustomerDashboard';
+import FarmerOverview from './pages/FarmerOverview';
+import FarmerProducts from './pages/FarmerProducts';
+import FarmerInventory from './pages/FarmerInventory';
+import FarmerOrders from './pages/FarmerOrders';
+import AdminDashboard from './pages/AdminDashboard';
+
+const App = () => {
+  return (
+    <Routes>
+      {/* Marketplace Shell (Home, Shop, Cart, Details, etc.) */}
+      <Route path="/" element={<MarketplaceLayout />}>
+        <Route index element={<Home />} />
+        <Route path="shop" element={<Shop />} />
+        <Route path="products/:id" element={<ProductDetail />} />
+        <Route path="cart" element={<Cart />} />
+        <Route path="auth" element={<Auth />} />
+        
+        {/* Protected Customer Dashboard */}
+        <Route 
+          path="dashboard" 
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <CustomerDashboard />
+            </ProtectedRoute>
+          } 
+        />
+      </Route>
+
+      {/* Farmer ERP Portal (DashboardLayout Shell) */}
+      <Route 
+        path="/farmer" 
+        element={
+          <ProtectedRoute allowedRoles={['farmer']}>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<FarmerOverview />} />
+        <Route path="products" element={<FarmerProducts />} />
+        <Route path="inventory" element={<FarmerInventory />} />
+        <Route path="orders" element={<FarmerOrders />} />
+      </Route>
+
+      {/* Admin Control Panel (DashboardLayout Shell) */}
+      <Route 
+        path="/admin" 
+        element={
+          <ProtectedRoute allowedRoles={['admin']}>
+            <DashboardLayout />
+          </ProtectedRoute>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+      </Route>
+
+      {/* Fallback Redirect */}
+      <Route path="*" element={<Navigate to="/" replace />} />
+    </Routes>
+  );
+};
+
+export default App;

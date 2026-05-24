@@ -1,0 +1,46 @@
+[
+  {
+    "_id": "grk28k9qumpihh95d",
+    "createdAt": "2026-05-23T15:08:38.161Z",
+    "name": "INARI Admin Panel",
+    "email": "admin@inari.com",
+    "password": "$2a$10$aPIaR4AjHXZ2IBGhgdeoIOq/ikodg5mhikENLAkrTcmVII7MqYD9O",
+    "role": "admin",
+    "phone": "+1 (555) 0199",
+    "address": "INARI Headquarters, San Francisco, CA",
+    "status": "approved"
+  },
+  {
+    "_id": "0pjgq0np2mpihh95j",
+    "createdAt": "2026-05-23T15:08:38.167Z",
+    "name": "Green Valley Farm (John)",
+    "email": "farmer@inari.com",
+    "password": "$2a$10$aPIaR4AjHXZ2IBGhgdeoIOy7x9QrFhGU2.U9rwpOm4.xrME37C/bG",
+    "role": "farmer",
+    "phone": "+1 (555) 0122",
+    "address": "Green Valley Field 4, Sonoma, CA",
+    "status": "approved"
+  },
+  {
+    "_id": "xm1vhnfjtmpihh95k",
+    "createdAt": "2026-05-23T15:08:38.168Z",
+    "name": "Meadow Orchards (Jane)",
+    "email": "farmer-pending@inari.com",
+    "password": "$2a$10$aPIaR4AjHXZ2IBGhgdeoIOy7x9QrFhGU2.U9rwpOm4.xrME37C/bG",
+    "role": "farmer",
+    "phone": "+1 (555) 0155",
+    "address": "Apple Lane Orchards, Hood River, OR",
+    "status": "pending"
+  },
+  {
+    "_id": "7hw9w1bsempihh95k",
+    "createdAt": "2026-05-23T15:08:38.168Z",
+    "name": "Arthur Customer",
+    "email": "customer@inari.com",
+    "password": "$2a$10$aPIaR4AjHXZ2IBGhgdeoIOQOVV3SHMBPBo2yYPMLDetP.0yzcbtB6",
+    "role": "customer",
+    "phone": "+1 (555) 0188",
+    "address": "250 Market St, Apt 4B, San Francisco, CA",
+    "status": "approved"
+  }
+]
