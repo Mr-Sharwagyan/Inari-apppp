@@ -231,7 +231,7 @@ const Cart = () => {
                       type="text"
                       value={fullName}
                       onChange={(e) => setFullName(e.target.value)}
-                      placeholder="Jane Doe"
+                      placeholder="Firstname Lastname"
                       className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                       required
                     />
@@ -244,7 +244,7 @@ const Cart = () => {
                         type="text"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="+1 (555) 0123"
+                        placeholder="+977 9800000000"
                         className="w-full border border-stone-200 pl-9 pr-4 py-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                         required
                       />
@@ -260,7 +260,7 @@ const Cart = () => {
                       type="text"
                       value={addressLine}
                       onChange={(e) => setAddressLine(e.target.value)}
-                      placeholder="Street name, Apartment number..."
+                      placeholder="Tole, Ward No., Street, etc."
                       className="w-full border border-stone-200 pl-9 pr-4 py-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                       required
                     />
@@ -274,7 +274,7 @@ const Cart = () => {
                       type="text"
                       value={city}
                       onChange={(e) => setCity(e.target.value)}
-                      placeholder="San Francisco"
+                      placeholder="Bhaktapur"
                       className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                       required
                     />
@@ -285,7 +285,7 @@ const Cart = () => {
                       type="text"
                       value={state}
                       onChange={(e) => setState(e.target.value)}
-                      placeholder="CA"
+                      placeholder="Bagmati"
                       className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                       required
                     />

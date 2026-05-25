@@ -15,6 +15,11 @@ import FarmerProducts from './pages/FarmerProducts';
 import FarmerInventory from './pages/FarmerInventory';
 import FarmerOrders from './pages/FarmerOrders';
 import AdminDashboard from './pages/AdminDashboard';
+import Privacy from './pages/Privacy.jsx';
+import Terms from './pages/Terms.jsx';
+import Sla from './pages/Sla.jsx';
+import EventsMarketplace from './pages/Events.jsx';
+import CreateEvent from './pages/CreateEvent.jsx';
 
 const App = () => {
   return (
@@ -26,21 +31,34 @@ const App = () => {
         <Route path="products/:id" element={<ProductDetail />} />
         <Route path="cart" element={<Cart />} />
         <Route path="auth" element={<Auth />} />
-        
+        <Route path="privacy" element={<Privacy />} />
+        <Route path="terms" element={<Terms />} />
+        <Route path="sla" element={<Sla />} />
+        <Route path="events" element={<EventsMarketplace />} />
+
+
         {/* Protected Customer Dashboard */}
-        <Route 
-          path="dashboard" 
+        <Route
+          path="dashboard"
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               <CustomerDashboard />
             </ProtectedRoute>
-          } 
+          }
         />
       </Route>
+      <Route
+        path="event/create"
+        element={
+          <ProtectedRoute allowedRoles={['farmer', 'admin']}>
+            <CreateEvent />
+          </ProtectedRoute>
+        }
+      />
 
       {/* Farmer ERP Portal (DashboardLayout Shell) */}
-      <Route 
-        path="/farmer" 
+      <Route
+        path="/farmer"
         element={
           <ProtectedRoute allowedRoles={['farmer']}>
             <DashboardLayout />
@@ -54,8 +72,8 @@ const App = () => {
       </Route>
 
       {/* Admin Control Panel (DashboardLayout Shell) */}
-      <Route 
-        path="/admin" 
+      <Route
+        path="/admin"
         element={
           <ProtectedRoute allowedRoles={['admin']}>
             <DashboardLayout />

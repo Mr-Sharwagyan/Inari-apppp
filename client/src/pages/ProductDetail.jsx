@@ -217,14 +217,14 @@ const ProductDetail = () => {
               <span className="text-[10px] text-sage-400 font-bold uppercase block">Location</span>
               <div className="flex items-center gap-1 text-sage-700">
                 <MapPin className="w-3.5 h-3.5 text-sage-400" />
-                <span>{product.farmerAddress || 'Sonoma County, CA'}</span>
+                <span>{product.farmerAddress || 'Thimi,Bhaktapur'}</span>
               </div>
             </div>
             <div className="space-y-1">
               <span className="text-[10px] text-sage-400 font-bold uppercase block">Contact Phone</span>
               <div className="flex items-center gap-1 text-sage-700">
                 <Phone className="w-3.5 h-3.5 text-sage-400" />
-                <span>{product.farmerPhone || '+1 (555) 0122'}</span>
+                <span>{product.farmerPhone || '+977 9800000000'}</span>
               </div>
             </div>
             <div className="space-y-1">

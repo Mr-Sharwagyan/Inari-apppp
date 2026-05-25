@@ -264,7 +264,7 @@ const Shop = () => {
                     <div className="flex justify-between items-center mt-4 pt-4 border-t border-stone-100">
                       <div>
                         <span className="text-[10px] text-sage-400 font-bold block uppercase leading-none">Price per {product.unit}</span>
-                        <span className="text-base font-extrabold text-primary-950">${product.price.toFixed(2)}</span>
+                        <span className="text-base font-extrabold text-primary-950">Rs.{product.price.toFixed(2)}</span>
                       </div>
                       <button
                         onClick={() => {

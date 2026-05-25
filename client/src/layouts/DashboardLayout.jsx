@@ -14,7 +14,8 @@ import {
   ChevronLeft, 
   ChevronRight, 
   Home,
-  Users
+  Users,
+  CalendarDays
 } from 'lucide-react';
 import api from '../services/api';
 
@@ -60,6 +61,7 @@ const DashboardLayout = () => {
     { name: 'My Crops', to: '/farmer/products', icon: Sprout },
     { name: 'Inventory Logs', to: '/farmer/inventory', icon: Package },
     { name: 'Order Queues', to: '/farmer/orders', icon: ShoppingBag },
+    { name: 'Create Event', to: '/event/create', icon: CalendarDays },
   ];
 
   const adminNavigation = [

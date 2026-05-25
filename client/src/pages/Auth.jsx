@@ -190,7 +190,7 @@ const Auth = () => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder={role === 'farmer' ? 'Green Valley Farms Inc.' : 'Jane Doe'}
+                    placeholder={role === 'farmer' ? 'Green Valley Farms Inc.' : 'firstname lastname'}
                     className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-stone-200 outline-none text-sm focus:border-primary-500 focus:ring-4 focus:ring-primary-100 placeholder:text-sage-400"
                     required={!isLogin}
                   />
@@ -255,7 +255,7 @@ const Auth = () => {
                       type="text"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
-                      placeholder="+1 (555) 0122"
+                      placeholder="+977 98123 45678"
                       className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-stone-200 outline-none text-sm focus:border-primary-500 focus:ring-4 focus:ring-primary-100 placeholder:text-sage-400"
                     />
                   </div>
@@ -269,7 +269,7 @@ const Auth = () => {
                       type="text"
                       value={address}
                       onChange={(e) => setAddress(e.target.value)}
-                      placeholder="123 Field Lane, Sonoma, CA"
+                      placeholder="Madhyapur Thimi, Bhaktapur, Nepal"
                       className="w-full pl-9 pr-4 py-2.5 rounded-xl border border-stone-200 outline-none text-sm focus:border-primary-500 focus:ring-4 focus:ring-primary-100 placeholder:text-sage-400"
                     />
                   </div>

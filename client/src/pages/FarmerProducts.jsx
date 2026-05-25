@@ -196,7 +196,7 @@ const FarmerProducts = () => {
                       </span>
                     </td>
                     <td className="p-4 font-bold text-sm">
-                      ${prod.price.toFixed(2)} <span className="text-[10px] text-sage-400 font-normal">/ {prod.unit}</span>
+                      Rs.{prod.price.toFixed(2)} <span className="text-[10px] text-sage-400 font-normal">/ {prod.unit}</span>
                     </td>
                     <td className="p-4">
                       <span className={`font-bold ${prod.stock > 15 ? 'text-primary-850' : 'text-amber-600 font-extrabold'}`}>
@@ -259,7 +259,7 @@ const FarmerProducts = () => {
                     type="text"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    placeholder="Organic Golden Corn"
+                    placeholder="Tomatoes, Wheat, Milk..."
                     className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                     required
                   />
@@ -290,13 +290,13 @@ const FarmerProducts = () => {
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="space-y-1 col-span-1">
-                  <label className="text-xs font-semibold text-sage-700">Price ($) *</label>
+                  <label className="text-xs font-semibold text-sage-700">Price (Rs.) *</label>
                   <input
                     type="number"
                     step="0.01"
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
-                    placeholder="3.20"
+                    placeholder="10.0"
                     className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500"
                     required
                   />

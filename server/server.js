@@ -16,6 +16,7 @@ import inventoryRoutes from './routes/inventoryRoutes.js';
 import notificationRoutes from './routes/notificationRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
+import eventRoutes from './routes/eventRoutes.js';
 
 // Load ENV
 dotenv.config();
@@ -48,7 +49,7 @@ const startServer = async () => {
   app.use('/api/notifications', notificationRoutes);
   app.use('/api/analytics', analyticsRoutes);
   app.use('/api/admin', adminRoutes);
-
+  app.use('/api/events', eventRoutes);
   // Health check
   app.get('/api/health', (req, res) => {
     res.json({

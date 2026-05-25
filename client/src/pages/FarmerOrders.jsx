@@ -181,7 +181,7 @@ const FarmerOrders = () => {
                   <div className="flex items-center gap-3">
                     <div className="text-right">
                       <span className="text-[10px] text-sage-400 font-bold block leading-none">Fulfillment Subtotal</span>
-                      <span className="text-sm font-extrabold text-primary-950">${farmerSubtotal.toFixed(2)}</span>
+                      <span className="text-sm font-extrabold text-primary-950">Rs.{farmerSubtotal.toFixed(2)}</span>
                     </div>
                     
                     {/* Status Fulfill Action Selector */}
@@ -213,8 +213,8 @@ const FarmerOrders = () => {
                             <span className="text-[10px] text-sage-450 block">Quantity: {item.quantity} {item.unit || 'kg'}</span>
                           </div>
                           <div className="text-right font-semibold">
-                            <span className="text-sage-500 block text-[10px]">${item.price.toFixed(2)} / unit</span>
-                            <span className="text-primary-950 font-bold text-sm">${(item.price * item.quantity).toFixed(2)}</span>
+                            <span className="text-sage-500 block text-[10px]">Rs.{item.price.toFixed(2)} / unit</span>
+                            <span className="text-primary-950 font-bold text-sm">Rs.{(item.price * item.quantity).toFixed(2)}</span>
                           </div>
                         </div>
                       ))}

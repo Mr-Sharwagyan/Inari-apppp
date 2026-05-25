@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useToast } from '../context/ToastContext';
 import { 
   Users, UserCheck, ShieldAlert, DollarSign, Sprout, ShoppingBag, 
-  Search, Check, X, ShieldAlert as AlertIcon, Calendar, Mail, FileText
+  Search, Check, X, ShieldAlert as AlertIcon, Calendar, Mail, FileText,
+  IndianRupee
 } from 'lucide-react';
 import { TableSkeleton, KpiSkeleton } from '../components/SkeletonLoader';
 import api from '../services/api';
@@ -90,11 +91,11 @@ const AdminDashboard = () => {
         <div className="bg-white border border-stone-200/60 p-5 rounded-2xl shadow-soft flex items-center justify-between">
           <div className="space-y-1">
             <span className="text-[10px] text-sage-400 font-extrabold uppercase tracking-wider block">Gross Transactions</span>
-            <div className="text-2xl font-extrabold text-primary-950">${summary.totalRevenue.toLocaleString()}</div>
+            <div className="text-2xl font-extrabold text-primary-950">Rs.{summary.totalRevenue.toLocaleString()}</div>
             <span className="text-[10px] text-sage-450 font-bold">Total platform sales flow</span>
           </div>
           <div className="bg-primary-50 text-primary-900 p-3.5 rounded-xl border border-primary-100">
-            <DollarSign className="w-5 h-5" />
+            <IndianRupee className="w-5 h-5" />
           </div>
         </div>
 

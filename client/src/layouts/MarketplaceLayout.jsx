@@ -77,6 +77,14 @@ const MarketplaceLayout = () => {
               >
                 Marketplace
               </Link>
+              <Link
+                to="/events"
+                className={`text-sm font-semibold transition-colors duration-200 ${
+                  location.pathname === '/events' ? 'text-primary-800' : 'text-sage-500 hover:text-primary-900'
+                }`}
+              >
+                Events
+              </Link>
               {user?.role === 'farmer' && (
                 <Link
                   to="/farmer"
@@ -153,7 +161,7 @@ const MarketplaceLayout = () => {
                 to="/cart"
                 className="relative p-2.5 bg-primary-50/80 hover:bg-primary-100 text-primary-900 rounded-xl transition-all flex items-center justify-center border border-primary-200/40"
               >
-                <ShoppingBag className="w-5 h-5" />
+                <ShoppingBag className="w-5 h-5" /> Cart
                 {itemsCount > 0 && (
                   <span className="absolute -top-1.5 -right-1.5 bg-primary-700 text-[#FAF9F5] text-[10px] font-extrabold w-5 h-5 rounded-full flex items-center justify-center shadow-sm">
                     {itemsCount}
@@ -187,7 +195,7 @@ const MarketplaceLayout = () => {
               ) : (
                 <Link
                   to="/auth"
-                  className="bg-primary-900 hover:bg-primary-950 text-[#FAF9F5] px-4.5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-sm flex items-center gap-1.5"
+                  className="bg-primary hover:bg-gray-200 text-[#846e19] px-5 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-sm flex items-center gap-1.5"
                 >
                   <User className="w-4 h-4" />
                   Sign In
@@ -341,9 +349,15 @@ const MarketplaceLayout = () => {
               © 2026 INARI Technologies Inc. All rights reserved.
             </div>
             <div className="flex space-x-6">
-              <a href="#" className="hover:text-white">Privacy Policy</a>
-              <a href="#" className="hover:text-white">Terms of Service</a>
-              <a href="#" className="hover:text-white">SLA Commitments</a>
+              <Link to="/privacy" className="hover:text-white">
+                Privacy Policy
+              </Link>
+              <Link to="/terms" className="hover:text-white">
+                Terms of Service
+              </Link>
+              <Link to="/sla" className="hover:text-white">
+                SLA Commitments
+              </Link>
             </div>
           </div>
         </div>

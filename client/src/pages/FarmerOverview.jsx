@@ -5,12 +5,19 @@ import {
   PieChart, Pie, Cell,
   XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend 
 } from 'recharts';
-import { DollarSign, ShoppingBag, Sprout, Layers, AlertTriangle, ArrowUpRight } from 'lucide-react';
+import { DollarSign, ShoppingBag, Sprout, Layers, AlertTriangle, ArrowUpRight, IndianRupee } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 import { KpiSkeleton, ChartSkeleton } from '../components/SkeletonLoader';
 import api from '../services/api';
 
-const COLORS = ['#234737', '#47896d', '#899f86', '#aa8c5e', '#684d37'];
+const COLORS = ['#FF6B6B',
+  '#4ECDC4',
+  '#45B7D1',
+  '#FFA94D',
+  '#845EF7',
+  '#51CF66',
+  '#FFD43B',
+  '#F06595',];
 
 const FarmerOverview = () => {
   const showToast = useToast();
@@ -64,14 +71,14 @@ const FarmerOverview = () => {
         <div className="bg-white border border-stone-200/60 p-5 rounded-2xl shadow-soft flex items-center justify-between">
           <div className="space-y-2">
             <span className="text-[10px] text-sage-400 font-extrabold uppercase tracking-wider block">Total Revenue</span>
-            <div className="text-2xl font-extrabold text-primary-950">${summary.totalRevenue.toLocaleString()}</div>
+            <div className="text-2xl font-extrabold text-primary-950">Rs.{summary.totalRevenue.toLocaleString()}</div>
             <span className="text-[10px] text-emerald-700 font-bold flex items-center gap-0.5">
               <ArrowUpRight className="w-3 h-3" />
               +12.4% vs last month
             </span>
           </div>
           <div className="bg-primary-50 text-primary-900 p-3.5 rounded-xl border border-primary-100">
-            <DollarSign className="w-5 h-5" />
+            <IndianRupee className="w-5 h-5" />
           </div>
         </div>
 
@@ -133,7 +140,7 @@ const FarmerOverview = () => {
         {/* Monthly Revenue (Area Chart) */}
         <div className="lg:col-span-2 bg-white border border-stone-200/60 p-6 rounded-2xl shadow-soft flex flex-col justify-between">
           <div className="flex justify-between items-center mb-6">
-            <h3 className="font-extrabold text-sm text-primary-950 uppercase tracking-wider">Revenue Flow Trends ($)</h3>
+            <h3 className="font-extrabold text-sm text-primary-950 uppercase tracking-wider">Revenue Flow Trends (Rs.)</h3>
             <span className="text-[10px] font-semibold text-sage-400">Past 6 months</span>
           </div>
           
@@ -191,7 +198,7 @@ const FarmerOverview = () => {
             </ResponsiveContainer>
 
             {/* Labels ledger list */}
-            <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center mt-3 text-[10px] font-bold text-sage-600">
+            <div className="flex flex-wrap gap-x-4 gap-y-1 justify-center mt-3 text-[10px] font-bold text-sage-900">
               {charts.categoryBreakdown.map((item, idx) => (
                 <div key={idx} className="flex items-center gap-1">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: COLORS[idx % COLORS.length] }} />
