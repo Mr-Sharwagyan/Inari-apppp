@@ -51,9 +51,12 @@ const MarketplaceLayout = () => {
             
             {/* Logo */}
             <Link to="/" className="flex items-center gap-2 group">
-              <div className="bg-primary-900 text-[#FAF9F5] p-2 rounded-xl group-hover:scale-105 transition-transform duration-200 shadow-sm">
-                <Tractor className="w-5 h-5" />
-              </div>
+                <img
+                  src="/uploads/logo2.png"
+                  alt="Inari Logo"
+                  className="h-12 w-auto group-hover:scale-105 transition-transform duration-200"
+                />
+
               <span className="font-extrabold text-xl tracking-tight text-primary-950">
                 INARI<span className="text-primary-500 font-medium">.</span>
               </span>
@@ -304,7 +307,11 @@ const MarketplaceLayout = () => {
             
             <div className="space-y-4">
               <span className="font-extrabold text-xl tracking-tight text-white flex items-center gap-1.5">
-                <Tractor className="w-5 h-5 text-primary-400" />
+                <img
+                  src="/uploads/logo2.png"
+                  alt="Inari Logo"
+                  className="h-12 w-auto group-hover:scale-105 transition-transform duration-200"
+                />
                 INARI<span className="text-primary-400 font-medium">.</span>
               </span>
               <p className="text-xs text-sage-400/90 leading-relaxed">

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { useCart } from '../context/CartContext';
+import { useCart, getCustomerPrice } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { Tractor, MapPin, Phone, Mail, ShoppingCart, ArrowLeft, ShieldCheck, Heart } from 'lucide-react';
 import { CardSkeleton } from '../components/SkeletonLoader';
 import api from '../services/api';
+import { useWishlist } from '../context/WishlistContext';
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -12,11 +13,13 @@ const ProductDetail = () => {
   const { addToCart } = useCart();
   const showToast = useToast();
 
+
   const [product, setProduct] = useState(null);
   const [related, setRelated] = useState([]);
   const [loading, setLoading] = useState(true);
   const [quantity, setQuantity] = useState(1);
-  const [wishlist, setWishlist] = useState(false);
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const wishlist = isInWishlist(id);
 
   useEffect(() => {
     const loadProductDetails = async () => {
@@ -108,7 +111,8 @@ const ProductDetail = () => {
 
             {/* Price display */}
             <div className="flex items-baseline gap-2 py-2">
-              <span className="text-3xl font-extrabold text-primary-950">Rs.{product.price.toFixed(2)}</span>
+              <span className="text-3xl font-extrabold text-primary-950">Rs.{getCustomerPrice(product.price).toFixed(2)}</span>
+              <span className="text-[11px] text-sage-400 font-semibold block mt-0.5">Farmer price: Rs.{product.price.toFixed(2)}</span>
               <span className="text-xs text-sage-450 font-semibold">per {product.unit}</span>
             </div>
 
@@ -170,11 +174,18 @@ const ProductDetail = () => {
                   </button>
                   <button
                     onClick={() => {
-                      setWishlist(!wishlist);
-                      showToast(wishlist ? 'Removed from Wishlist' : 'Saved to Wishlist!', 'info');
+                      if (wishlist) {
+                        removeFromWishlist(product._id);
+                        showToast('Removed from Wishlist', 'info');
+                      } else {
+                        addToWishlist(product);
+                        showToast('Saved to Wishlist!', 'success');
+                      }
                     }}
                     className={`col-span-1 border rounded-xl flex items-center justify-center transition-colors ${
-                      wishlist ? 'bg-red-50 border-red-200 text-red-600' : 'border-stone-200 hover:bg-stone-50 text-sage-400'
+                      wishlist
+                        ? 'bg-red-50 border-red-200 text-red-600'
+                        : 'border-stone-200 hover:bg-stone-50 text-sage-400'
                     }`}
                   >
                     <Heart className="w-5 h-5 fill-current" />
@@ -263,7 +274,7 @@ const ProductDetail = () => {
                   <span className="text-[10px] text-sage-400 font-medium">Sourced from: {prod.farmerName}</span>
                 </div>
                 <div className="flex justify-between items-center mt-3 pt-3 border-t border-stone-100">
-                  <span className="text-sm font-extrabold text-primary-950">${prod.price.toFixed(2)}</span>
+                  <span className="text-sm font-extrabold text-primary-950">Rs.{getCustomerPrice(prod.price).toFixed(2)}</span>
                   <Link
                     to={`/products/${prod._id}`}
                     className="text-[10px] bg-primary-50 text-primary-900 font-bold px-2.5 py-1.5 rounded-lg border border-primary-200/20"

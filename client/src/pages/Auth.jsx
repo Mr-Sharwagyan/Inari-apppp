@@ -73,10 +73,14 @@ const Auth = () => {
 
         {/* Top Header info */}
         <div className="flex items-center gap-2.5 z-10">
-          <div className="bg-primary-900 p-2 rounded-xl border border-primary-800/30">
-            <Tractor className="w-6 h-6 text-primary-400" />
-          </div>
-          <span className="font-extrabold text-xl tracking-tight text-white">INARI Platform</span>
+          
+            <img
+              src="/uploads/logo2.png"
+              alt="Inari Logo"
+              className="h-12 w-auto group-hover:scale-105 transition-transform duration-200"
+            />
+          
+          <span className="font-extrabold text-xl tracking-tight text-white">INARI.</span>
         </div>
 
         {/* Dynamic Center Illustration Card */}
@@ -87,9 +91,11 @@ const Auth = () => {
             <div className="absolute inset-4 rounded-full border border-primary-500/30 border-dashed animate-spin" style={{ animationDuration: '10s' }} />
             
             {/* Inner Sprout graphic */}
-            <div className="w-28 h-28 rounded-3xl bg-primary-900/60 border border-primary-500/30 backdrop-blur-md flex items-center justify-center shadow-lg">
-              <Tractor className="w-12 h-12 text-primary-400" />
-            </div>
+              <img
+                src="/uploads/logo2.png"
+                alt="Inari Logo"
+                className="h-45 w-auto group-hover:scale-105 transition-transform duration-200"
+              />
           </div>
 
           <h2 className="text-2xl font-extrabold mb-3 tracking-tight text-white leading-snug">
@@ -168,7 +174,11 @@ const Auth = () => {
                         : 'border-stone-200 hover:border-stone-300 text-sage-600'
                     }`}
                   >
-                    <Tractor className="w-4 h-4 mx-auto mb-1 text-sage-400" />
+                    <img
+                      src="/uploads/logo2.png"
+                      alt="Inari Logo"
+                      className="h-4 w-auto group-hover:scale-105 transition-transform duration-200 mx-auto mb-1 text-sage-400"
+                    />
                     <span className="text-xs block">Farmer</span>
                   </div>
                 </div>

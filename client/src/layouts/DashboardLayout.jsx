@@ -90,9 +90,11 @@ const DashboardLayout = () => {
         {/* Sidebar Header Logo */}
         <div className="h-16 flex items-center px-6 border-b border-stone-200/50">
           <Link to="/" className="flex items-center gap-2.5 overflow-hidden">
-            <div className="bg-primary-900 text-white p-1.5 rounded-lg shrink-0 shadow-sm">
-              <Tractor className="w-5 h-5" />
-            </div>
+            <img
+              src="/uploads/logo2.png"
+              alt="Inari Logo"
+              className="h-12 w-auto group-hover:scale-105 transition-transform duration-200"
+            />
             {!collapsed && (
               <span className="font-extrabold text-lg text-primary-950 tracking-tight transition-opacity duration-200">
                 INARI<span className="text-primary-500 font-medium">.</span>

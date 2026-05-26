@@ -5,7 +5,9 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useWishlist } from '../context/WishlistContext';
 import api from '../services/api';
+
 
 // ─── Google Fonts ─────────────────────────────────────────────────────────────
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap');`;
@@ -621,7 +623,7 @@ const OrdersPanel = ({ orders, loading }) => (
 );
 
 // ─── Wishlist Placeholder ─────────────────────────────────────────────────────
-const WishlistPanel = () => (
+const WishlistPanel = ({ items, removeFromWishlist }) => (
   <div
     style={{
       background: 'rgba(255,255,255,0.85)',
@@ -629,7 +631,6 @@ const WishlistPanel = () => (
       border: '1px solid rgba(255,255,255,0.7)',
       borderRadius: 24,
       padding: '28px 32px',
-      textAlign: 'center',
     }}
   >
     <h2
@@ -637,37 +638,104 @@ const WishlistPanel = () => (
         fontFamily: "'Instrument Serif', Georgia, serif",
         fontSize: 22,
         color: '#0f1f10',
-        marginBottom: 32,
-        textAlign: 'left',
+        marginBottom: 24,
       }}
     >
       Wishlist
     </h2>
-    <Heart size={48} color="#fecdd3" style={{ marginBottom: 14 }} />
-    <div style={{ fontWeight: 600, fontSize: 15, color: '#475569' }}>
-      Your wishlist is empty
-    </div>
-    <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 6 }}>
-      Save items you love for later
-    </div>
-    <Link
-      to="/shop"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: 6,
-        marginTop: 20,
-        padding: '10px 22px',
-        borderRadius: 14,
-        background: 'linear-gradient(135deg, #be185d, #e11d48)',
-        color: '#fff',
-        fontWeight: 700,
-        fontSize: 13,
-        textDecoration: 'none',
-      }}
-    >
-      Explore Products <ArrowUpRight size={14} />
-    </Link>
+
+    {items.length === 0 ? (
+      <div style={{ textAlign: 'center', padding: '40px 0' }}>
+        <Heart size={48} color="#fecdd3" />
+        <div style={{ marginTop: 14, fontWeight: 600 }}>
+          Your wishlist is empty
+        </div>
+      </div>
+    ) : (
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(3, 1fr)',
+          gap: 16,
+        }}
+      >
+        {items.map((item) => (
+          <div
+            key={item._id}
+            style={{
+              background: '#fff',
+              borderRadius: 18,
+              overflow: 'hidden',
+              border: '1px solid #eee',
+            }}
+          >
+            <img
+              src={item.images?.[0]}
+              alt={item.name}
+              style={{
+                width: '100%',
+                height: 180,
+                objectFit: 'cover',
+              }}
+            />
+
+            <div style={{ padding: 14 }}>
+              <div
+                style={{
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: '#0f1f10',
+                }}
+              >
+                {item.name}
+              </div>
+
+              <div
+                style={{
+                  fontSize: 12,
+                  color: '#64748b',
+                  marginTop: 4,
+                }}
+              >
+                {item.farmerName}
+              </div>
+
+              <div
+                style={{
+                  marginTop: 10,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}
+              >
+                <span
+                  style={{
+                    fontWeight: 700,
+                    color: '#166534',
+                  }}
+                >
+                  Rs. {item.price}
+                </span>
+
+                <button
+                  onClick={() => removeFromWishlist(item._id)}
+                  style={{
+                    border: 'none',
+                    background: '#fee2e2',
+                    color: '#dc2626',
+                    borderRadius: 10,
+                    padding: '6px 10px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  Remove
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
   </div>
 );
 
@@ -763,6 +831,7 @@ const AddressesPanel = ({ user }) => (
 const CustomerDashboard = () => {
   const { user, logout, updateProfile } = useAuth();
   const { cartItems, itemsCount } = useCart();
+  const { wishlistItems, removeFromWishlist } = useWishlist();
   const navigate = useNavigate();
 
   const [activeTab, setActiveTab] = useState('overview');
@@ -1605,7 +1674,12 @@ const CustomerDashboard = () => {
           )}
 
           {/* Tab: Wishlist */}
-          {activeTab === 'wishlist' && <WishlistPanel />}
+          {activeTab === 'wishlist' && (
+            <WishlistPanel
+              items={wishlistItems}
+              removeFromWishlist={removeFromWishlist}
+            />
+          )}
 
           {/* Tab: Addresses */}
           {activeTab === 'addresses' && <AddressesPanel user={user} />}

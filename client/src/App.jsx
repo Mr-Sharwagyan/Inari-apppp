@@ -20,11 +20,15 @@ import Terms from './pages/Terms.jsx';
 import Sla from './pages/Sla.jsx';
 import EventsMarketplace from './pages/Events.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
+import EventDetail from './pages/EventDetail.jsx';
+
+import { WishlistProvider } from './context/WishlistContext';
 
 const App = () => {
   return (
-    <Routes>
-      {/* Marketplace Shell (Home, Shop, Cart, Details, etc.) */}
+    <WishlistProvider>
+      <Routes>
+        {/* Marketplace Shell (Home, Shop, Cart, Details, etc.) */}
       <Route path="/" element={<MarketplaceLayout />}>
         <Route index element={<Home />} />
         <Route path="shop" element={<Shop />} />
@@ -35,6 +39,7 @@ const App = () => {
         <Route path="terms" element={<Terms />} />
         <Route path="sla" element={<Sla />} />
         <Route path="events" element={<EventsMarketplace />} />
+        <Route path="events/:id" element={<EventDetail />} />
 
 
         {/* Protected Customer Dashboard */}
@@ -86,7 +91,9 @@ const App = () => {
       {/* Fallback Redirect */}
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
+  </WishlistProvider>
   );
 };
+
 
 export default App;

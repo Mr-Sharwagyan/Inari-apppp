@@ -2,13 +2,13 @@ import mongoose from 'mongoose';
 import { mockDb } from '../utils/mockDb.js';
 
 const OrderSchema = new mongoose.Schema({
-  customer: { type: String, required: true }, // User ID
+  customer: { type: String, required: true },
   items: [{
-    product: { type: String, required: true }, // Product ID
+    product: { type: String, required: true },
     name: { type: String, required: true },
     quantity: { type: Number, required: true },
     price: { type: Number, required: true },
-    farmer: { type: String, required: true }, // Farmer ID
+    farmer: { type: String, required: true },
     unit: { type: String, default: 'kg' }
   }],
   totalAmount: { type: Number, required: true },
@@ -20,11 +20,13 @@ const OrderSchema = new mongoose.Schema({
     zipCode: { type: String, required: true },
     phone: { type: String, required: true }
   },
+  paymentMethod: { type: String, enum: ['cod', 'khalti'], default: 'cod' },
+  khaltiTransactionId: { type: String, default: null },
   paymentStatus: { type: String, enum: ['pending', 'paid'], default: 'pending' },
-  orderStatus: { 
-    type: String, 
-    enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'], 
-    default: 'pending' 
+  orderStatus: {
+    type: String,
+    enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
+    default: 'pending'
   },
   createdAt: { type: Date, default: Date.now }
 });
@@ -42,11 +44,7 @@ const OrderModel = {
   },
   findById: async (id) => {
     if (global.useMockDb) return mockDb.findById('Order', id);
-    try {
-      return await MongoOrder.findById(id);
-    } catch {
-      return null;
-    }
+    try { return await MongoOrder.findById(id); } catch { return null; }
   },
   create: async (data) => {
     if (global.useMockDb) return mockDb.create('Order', data);

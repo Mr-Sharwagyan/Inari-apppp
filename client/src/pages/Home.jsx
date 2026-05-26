@@ -82,6 +82,7 @@ const Home = () => {
   const [heroLoaded, setHeroLoaded] = useState(false);
   const [statsVisible, setStatsVisible] = useState(false);
   const statsRef = useRef(null);
+  const [platformStats, setPlatformStats] = useState({ activeBatches: '...', cropValue: '...', orders: '...' });
 
   // Preload first hero image
   useEffect(() => {
@@ -121,6 +122,23 @@ const Home = () => {
       }
     };
     fetchCategories();
+  }, []);
+
+  useEffect(() => {
+    const fetchPlatformStats = async () => {
+      try {
+        const res = await api.get('/products');
+        const products = res.data || [];
+        const totalStock = products.reduce((s, p) => s + (p.stock || 0), 0);
+        const totalValue = products.reduce((s, p) => s + (p.price * p.stock), 0);
+        setPlatformStats({
+          activeBatches: products.length.toString(),
+          cropValue: 'Rs. ' + (totalValue > 1000 ? (totalValue/1000).toFixed(1) + 'K' : totalValue.toFixed(0)),
+          orders: totalStock.toString()
+        });
+      } catch {}
+    };
+    fetchPlatformStats();
   }, []);
 
   return (
@@ -479,8 +497,8 @@ const Home = () => {
 
               {/* Stats row */}
               {[
-                { icon: Package, label: 'Active Batches', value: '148', color: '#86efac' },
-                { icon: TrendingUp, label: 'Crop Ledger Value', value: 'Rs. 12,450', color: '#fbbf24' },
+                { icon: Package, label: 'Active Batches', value: platformStats.activeBatches, color: '#86efac' },
+                { icon: TrendingUp, label: 'Crop Ledger Value', value: platformStats.cropValue, color: '#fbbf24' },
                 { icon: ShieldCheck, label: 'Quality Grade', value: 'Grade A Certified', color: '#60a5fa' },
               ].map((item, i) => (
                 <div

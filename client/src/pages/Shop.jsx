@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import { Search, SlidersHorizontal, Grid, List, MapPin, AlertCircle, ShoppingCart } from 'lucide-react';
-import { useCart } from '../context/CartContext';
+import { useCart, getCustomerPrice } from '../context/CartContext';
 import { useToast } from '../context/ToastContext';
 import { CardSkeleton } from '../components/SkeletonLoader';
 import api from '../services/api';
@@ -264,7 +264,7 @@ const Shop = () => {
                     <div className="flex justify-between items-center mt-4 pt-4 border-t border-stone-100">
                       <div>
                         <span className="text-[10px] text-sage-400 font-bold block uppercase leading-none">Price per {product.unit}</span>
-                        <span className="text-base font-extrabold text-primary-950">Rs.{product.price.toFixed(2)}</span>
+                        <span className="text-base font-extrabold text-primary-950">Rs.{getCustomerPrice(product.price).toFixed(2)}</span>
                       </div>
                       <button
                         onClick={() => {
@@ -331,7 +331,7 @@ const Shop = () => {
                     <div className="flex justify-between items-center mt-4 pt-4 border-t border-stone-100">
                       <div>
                         <span className="text-[10px] text-sage-400 font-bold block uppercase leading-none">Price per {product.unit}</span>
-                        <span className="text-lg font-extrabold text-primary-950">Rs.{product.price.toFixed(2)}</span>
+                        <span className="text-lg font-extrabold text-primary-950">Rs.{getCustomerPrice(product.price).toFixed(2)}</span>
                       </div>
                       <button
                         onClick={() => {

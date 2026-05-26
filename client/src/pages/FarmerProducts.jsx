@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
-import { Plus, Search, Edit3, Trash2, X, Upload, Sprout, Image } from 'lucide-react';
+import { Plus, Search, Edit3, Trash2, X, Upload, Sprout, Image, Tag } from 'lucide-react';
 import { TableSkeleton } from '../components/SkeletonLoader';
 import api from '../services/api';
 
@@ -27,6 +27,13 @@ const FarmerProducts = () => {
   const [stock, setStock] = useState('');
   const [imageUrl, setImageUrl] = useState('');
   const [saving, setSaving] = useState(false);
+  const [activeTab, setActiveTab] = useState('products'); // 'products' | 'categories'
+
+  // Category form state
+  const [newCatName, setNewCatName] = useState('');
+  const [newCatDesc, setNewCatDesc] = useState('');
+  const [newCatImage, setNewCatImage] = useState('');
+  const [savingCat, setSavingCat] = useState(false);
 
   const loadData = async () => {
     setLoading(true);
@@ -119,6 +126,33 @@ const FarmerProducts = () => {
     }
   };
 
+  const handleAddCategory = async (e) => {
+    e.preventDefault();
+    if (!newCatName.trim()) { showToast('Category name required.', 'warning'); return; }
+    setSavingCat(true);
+    try {
+      await api.post('/categories', { name: newCatName, description: newCatDesc, image: newCatImage });
+      showToast('Category created!', 'success');
+      setNewCatName(''); setNewCatDesc(''); setNewCatImage('');
+      loadData();
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to create category.', 'error');
+    } finally {
+      setSavingCat(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id, name) => {
+    if (!window.confirm(`Delete category "${name}"?`)) return;
+    try {
+      await api.delete(`/categories/${id}`);
+      showToast('Category deleted.', 'success');
+      setCategories(prev => prev.filter(c => c._id !== id));
+    } catch (err) {
+      showToast(err.response?.data?.message || 'Failed to delete category.', 'error');
+    }
+  };
+
   const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(search.toLowerCase()) ||
     p.category.toLowerCase().includes(search.toLowerCase())
@@ -131,17 +165,26 @@ const FarmerProducts = () => {
       <div className="flex flex-col sm:flex-row gap-4 items-center justify-between">
         <div className="text-left">
           <h2 className="text-2xl font-extrabold text-primary-950 tracking-tight font-sans">Crop Catalog</h2>
-          <p className="text-xs text-sage-450 mt-0.5">List products, adjust base prices, and update retail visibility.</p>
+          <p className="text-xs text-sage-450 mt-0.5">List products, manage categories, and update retail visibility.</p>
         </div>
-        <button
-          onClick={handleOpenCreate}
-          className="bg-primary-900 hover:bg-primary-950 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition-colors flex items-center gap-1.5 shrink-0 border border-primary-950/20"
-        >
-          <Plus className="w-4 h-4" />
-          Add Crop Product
-        </button>
+        <div className="flex items-center gap-2">
+          <div className="flex gap-1 bg-stone-100 p-1 rounded-xl">
+            {[{id:'products',label:'Products'},{id:'categories',label:'Categories'}].map(tab => (
+              <button key={tab.id} onClick={() => setActiveTab(tab.id)}
+                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${activeTab === tab.id ? 'bg-white text-primary-950 shadow-soft' : 'text-sage-500 hover:text-primary-900'}`}
+              >{tab.label}</button>
+            ))}
+          </div>
+          {activeTab === 'products' && (
+            <button onClick={handleOpenCreate}
+              className="bg-primary-900 hover:bg-primary-950 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition-colors flex items-center gap-1.5 shrink-0">
+              <Plus className="w-4 h-4" /> Add Crop
+            </button>
+          )}
+        </div>
       </div>
 
+      {activeTab === 'products' && (<>
       {/* Search Input bar */}
       <div className="relative w-full max-w-sm bg-white border border-stone-200/60 p-3 rounded-2xl shadow-soft">
         <Search className="absolute left-6 top-6 w-4 h-4 text-sage-400" />
@@ -228,6 +271,72 @@ const FarmerProducts = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        </div>
+      )}
+
+      </>)}
+
+      {/* Categories Tab */}
+      {activeTab === 'categories' && (
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-white border border-stone-200/60 p-6 rounded-2xl shadow-soft">
+            <h3 className="font-extrabold text-sm text-primary-950 uppercase tracking-wider mb-5 flex items-center gap-2">
+              <Plus className="w-4 h-4" /> Add Category
+            </h3>
+            <form onSubmit={handleAddCategory} className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-sage-700">Name *</label>
+                <input type="text" value={newCatName} onChange={e => setNewCatName(e.target.value)} placeholder="e.g. Grains" required
+                  className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-sage-700">Description</label>
+                <textarea value={newCatDesc} onChange={e => setNewCatDesc(e.target.value)} placeholder="Short description..." rows={2}
+                  className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500 resize-none" />
+              </div>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-sage-700">Image URL</label>
+                <input type="text" value={newCatImage} onChange={e => setNewCatImage(e.target.value)} placeholder="https://..."
+                  className="w-full border border-stone-200 p-2.5 rounded-xl outline-none text-xs focus:border-primary-500" />
+              </div>
+              {newCatImage && <img src={newCatImage} alt="preview" className="w-full h-24 object-cover rounded-xl border border-stone-200" onError={e => e.target.style.display='none'} />}
+              <button type="submit" disabled={savingCat}
+                className="w-full bg-primary-900 hover:bg-primary-950 text-white font-bold py-2.5 rounded-xl text-xs transition-colors disabled:opacity-60 flex items-center justify-center gap-2">
+                <Plus className="w-3.5 h-3.5" />{savingCat ? 'Creating...' : 'Create Category'}
+              </button>
+            </form>
+          </div>
+          <div className="lg:col-span-2">
+            <h3 className="font-extrabold text-sm text-primary-950 uppercase tracking-wider mb-4">All Categories ({categories.length})</h3>
+            {loading ? (
+              <div className="grid grid-cols-2 gap-3">{Array.from({length:4}).map((_,i)=>(
+                <div key={i} className="bg-white border border-stone-200 rounded-2xl p-4 animate-pulse space-y-2">
+                  <div className="bg-stone-200 h-20 rounded-xl"/><div className="bg-stone-200 h-3 rounded w-1/2"/>
+                </div>))}</div>
+            ) : categories.length === 0 ? (
+              <div className="bg-white border border-stone-200 rounded-2xl p-10 text-center">
+                <p className="text-sm text-sage-400 font-semibold">No categories. Create one using the form.</p>
+              </div>
+            ) : (
+              <div className="grid grid-cols-2 gap-3">
+                {categories.map(cat => (
+                  <div key={cat._id} className="bg-white border border-stone-200/60 rounded-2xl overflow-hidden hover:shadow-soft group transition-all">
+                    {cat.image && <div className="h-20 overflow-hidden bg-stone-100"><img src={cat.image} alt={cat.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" /></div>}
+                    <div className="p-3 flex items-start justify-between gap-2">
+                      <div className="min-w-0">
+                        <div className="font-bold text-sm text-primary-950 truncate">{cat.name}</div>
+                        {cat.description && <div className="text-[10px] text-sage-400 line-clamp-1 mt-0.5">{cat.description}</div>}
+                      </div>
+                      <button onClick={() => handleDeleteCategory(cat._id, cat.name)}
+                        className="p-1.5 rounded-lg text-sage-300 hover:text-red-600 hover:bg-red-50 transition-all shrink-0" title="Delete">
+                        <Trash2 className="w-4 h-4" />
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       )}
