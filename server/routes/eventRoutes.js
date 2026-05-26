@@ -1,28 +1,31 @@
 import express from "express";
 import EventModel from "../models/Event.js";
-import ProductModel from "../models/Product.js";
 import { protect, authorize } from "../middleware/auth.js";
 
 const router = express.Router();
 
+
+// =========================
+// GET ALL EVENTS (filter + search)
+// =========================
 router.get("/", async (req, res) => {
   try {
-    const { type, search } = req.query;
+    let events = await EventModel.find().populate("products");
 
-    let events = await EventModel.find({ isActive: true })
-      .populate("products");
+    const { type, search } = req.query;
 
     // filter by type
     if (type && type !== "all") {
-      events = events.filter(e => e.type === type);
+      events = events.filter((e) => e.type === type);
     }
 
     // search filter
     if (search) {
       const q = search.toLowerCase();
-      events = events.filter(e =>
-        e.title.toLowerCase().includes(q) ||
-        e.description.toLowerCase().includes(q)
+      events = events.filter(
+        (e) =>
+          e.title.toLowerCase().includes(q) ||
+          e.description.toLowerCase().includes(q)
       );
     }
 
@@ -32,6 +35,10 @@ router.get("/", async (req, res) => {
   }
 });
 
+
+// =========================
+// GET SINGLE EVENT
+// =========================
 router.get("/:id", async (req, res) => {
   try {
     const event = await EventModel.findById(req.params.id)
@@ -46,6 +53,11 @@ router.get("/:id", async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 });
+
+
+// =========================
+// CREATE EVENT
+// =========================
 router.post(
   "/",
   protect,
@@ -63,6 +75,11 @@ router.post(
     }
   }
 );
+
+
+// =========================
+// UPDATE EVENT
+// =========================
 router.put(
   "/:id",
   protect,
@@ -79,7 +96,7 @@ router.put(
         req.params.id,
         req.body,
         { new: true }
-      );
+      ).populate("products");
 
       res.json(updated);
     } catch (error) {
@@ -87,6 +104,11 @@ router.put(
     }
   }
 );
+
+
+// =========================
+// DELETE EVENT
+// =========================
 router.delete(
   "/:id",
   protect,
@@ -107,4 +129,5 @@ router.delete(
     }
   }
 );
+
 export default router;

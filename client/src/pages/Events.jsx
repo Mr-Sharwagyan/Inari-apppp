@@ -27,13 +27,34 @@ const Events = () => {
     fetchEvents();
   }, []);
 
-  const getCountdown = (endDate) => {
-    const diff = new Date(endDate) - new Date();
-    if (diff <= 0) return "Ended";
+  const getCountdown = (startDate, endDate) => {
+  const now = new Date();
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+
+  // NOT STARTED
+  if (now < start) {
+    const diff = start - now;
+
     const hrs = Math.floor(diff / (1000 * 60 * 60));
     const mins = Math.floor((diff / (1000 * 60)) % 60);
-    return `${hrs}h ${mins}m left`;
-  };
+
+    return `Starts in ${hrs}h ${mins}m`;
+  }
+
+      // ENDED
+      if (now > end) {
+        return "Ended";
+      }
+
+      // ACTIVE
+      const diff = end - now;
+
+      const hrs = Math.floor(diff / (1000 * 60 * 60));
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+
+      return `Ends in ${hrs}h ${mins}m`;
+    };
 
   const handleDelete = async (e, id) => {
     e.preventDefault();
@@ -128,9 +149,9 @@ const Events = () => {
                 </span>
 
                 {/* Countdown badge */}
-                <span className="absolute top-3 right-3 bg-red-600 text-white text-[10px] px-2.5 py-1 rounded-full font-bold flex items-center gap-1">
+                <span className="absolute top-3 right-3 bg-yellow-600 text-white text-[10px] px-2.5 py-1 rounded-full font-bold flex items-center gap-1">
                   <Clock className="w-3 h-3" />
-                  {getCountdown(event.endDate)}
+                  {getCountdown(event.startDate, event.endDate)}
                 </span>
               </Link>
 

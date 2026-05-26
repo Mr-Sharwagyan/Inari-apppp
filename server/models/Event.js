@@ -5,6 +5,21 @@ const eventSchema = new mongoose.Schema(
     title: String,
     description: String,
 
+    sections: [
+      {
+        icon: String,
+        title: String,
+        items: [String],
+      },
+    ],
+
+    tickets: {
+      general: String,
+      vip: String,
+      student: String,
+      vipBenefits: [String],
+    },
+
     type: {
       type: String,
       enum: ["bazaar", "hot_sale", "festival", "flash_sale"],

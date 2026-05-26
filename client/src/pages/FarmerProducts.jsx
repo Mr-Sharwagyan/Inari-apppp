@@ -178,7 +178,7 @@ const FarmerProducts = () => {
           {activeTab === 'products' && (
             <button onClick={handleOpenCreate}
               className="bg-primary-900 hover:bg-primary-950 text-white font-bold px-4 py-2.5 rounded-xl text-xs shadow-md transition-colors flex items-center gap-1.5 shrink-0">
-              <Plus className="w-4 h-4" /> Add Crop
+              <Plus className="w-4 h-4" /> Add Product
             </button>
           )}
         </div>
@@ -204,8 +204,8 @@ const FarmerProducts = () => {
         <div className="bg-white border border-stone-200/60 p-12 rounded-3xl text-center space-y-3 shadow-soft flex flex-col items-center">
           <Sprout className="w-10 h-10 text-sage-355" />
           <div>
-            <h3 className="font-bold text-base text-primary-950">No crops registered</h3>
-            <p className="text-xs text-sage-500">Create your first crop to sync details with the marketplace catalog.</p>
+            <h3 className="font-bold text-base text-primary-950">No products registered</h3>
+            <p className="text-xs text-sage-500">Create your first product to sync details with the marketplace catalog.</p>
           </div>
         </div>
       ) : (
@@ -214,7 +214,7 @@ const FarmerProducts = () => {
             <table className="w-full text-left text-xs border-collapse">
               <thead>
                 <tr className="bg-stone-50/70 border-b border-stone-200/50 text-sage-500 font-extrabold uppercase tracking-wider">
-                  <th className="p-4">Crop Detail</th>
+                  <th className="p-4">Product Detail</th>
                   <th className="p-4">Category</th>
                   <th className="p-4">Price / Unit</th>
                   <th className="p-4">Sync Stock</th>
@@ -363,7 +363,7 @@ const FarmerProducts = () => {
             <form onSubmit={handleSave} className="space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-sage-700">Crop Name *</label>
+                  <label className="text-xs font-semibold text-sage-700">Product Name *</label>
                   <input
                     type="text"
                     value={name}
@@ -374,7 +374,7 @@ const FarmerProducts = () => {
                   />
                 </div>
                 <div className="space-y-1">
-                  <label className="text-xs font-semibold text-sage-700">Crop Category *</label>
+                  <label className="text-xs font-semibold text-sage-700">Product Category *</label>
                   <select
                     value={category}
                     onChange={(e) => setCategory(e.target.value)}
@@ -435,7 +435,7 @@ const FarmerProducts = () => {
               </div>
 
               <div className="space-y-1">
-                <label className="text-xs font-semibold text-sage-700">Crop Image URL Link</label>
+                <label className="text-xs font-semibold text-sage-700">Product Image URL Link</label>
                 <div className="relative">
                   <Image className="absolute left-3 top-3 w-4 h-4 text-sage-400" />
                   <input
