@@ -21,6 +21,7 @@ import Sla from './pages/Sla.jsx';
 import EventsMarketplace from './pages/Events.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 import EventDetail from './pages/EventDetail.jsx';
+import AdminOrders from './pages/AdminOrders';
 
 import { WishlistProvider } from './context/WishlistContext';
 
@@ -86,6 +87,7 @@ const App = () => {
         }
       >
         <Route index element={<AdminDashboard />} />
+        <Route path="orders" element={<AdminOrders />} />
       </Route>
 
       {/* Fallback Redirect */}

@@ -16,18 +16,17 @@ router.get('/farmer', protect, authorize('farmer'), async (req, res) => {
 
     // 1. Get farmer's products
     const products = await ProductModel.find({ farmer: farmerId });
-    const productIds = products.map(p => p._id.toString());
 
-    // 2. Get orders containing these products
+    // 2. Get orders that contain this farmer's items
     const allOrders = await OrderModel.find({});
-    const farmerOrders = allOrders.filter(order => 
+    const farmerOrders = allOrders.filter(order =>
       order.items.some(item => item.farmer.toString() === farmerId)
     );
 
-    // Calculate revenue & units sold
+    // 3. Calculate real revenue & units sold
     let totalRevenue = 0;
     let totalUnitsSold = 0;
-    
+
     farmerOrders.forEach(order => {
       order.items.forEach(item => {
         if (item.farmer.toString() === farmerId) {
@@ -37,14 +36,14 @@ router.get('/farmer', protect, authorize('farmer'), async (req, res) => {
       });
     });
 
-    // 3. Count inventory batches
+    // 4. Count inventory batches
     const batches = await InventoryModel.find({ farmer: farmerId });
     const totalInventoryCount = batches.reduce((acc, curr) => acc + curr.quantity, 0);
 
-    // 4. Low stock alerts
+    // 5. Low stock alerts (products with stock <= 15)
     const lowStockCount = products.filter(p => p.stock <= 15).length;
 
-    // 5. Category breakdown
+    // 6. Category breakdown from real products only
     const categoryMap = {};
     products.forEach(p => {
       categoryMap[p.category] = (categoryMap[p.category] || 0) + p.stock;
@@ -54,47 +53,75 @@ router.get('/farmer', protect, authorize('farmer'), async (req, res) => {
       value: categoryMap[name]
     }));
 
-    // 6. Generate mock trend charts for premium visual rendering
-    // If no orders yet, we provide clean, beautiful seeded curves.
-    // If orders exist, we combine actual order metrics into a chronological curve.
-    const monthlyRevenue = [
-      { name: 'Jan', Revenue: Math.round(totalRevenue * 0.1) || 2400, Sales: 140 },
-      { name: 'Feb', Revenue: Math.round(totalRevenue * 0.12) || 1398, Sales: 220 },
-      { name: 'Mar', Revenue: Math.round(totalRevenue * 0.15) || 9800, Sales: 450 },
-      { name: 'Apr', Revenue: Math.round(totalRevenue * 0.18) || 3908, Sales: 380 },
-      { name: 'May', Revenue: Math.round(totalRevenue * 0.2) || 4800, Sales: 510 },
-      { name: 'Jun', Revenue: Math.round(totalRevenue * 0.25) || totalRevenue || 12000, Sales: totalUnitsSold || 680 }
-    ];
+    // 7. Build real monthly revenue chart from actual orders
+    //    Groups orders by the month they were created, last 6 months.
+    const now = new Date();
+    const monthLabels = [];
+    for (let i = 5; i >= 0; i--) {
+      const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+      monthLabels.push({
+        key: `${d.getFullYear()}-${d.getMonth()}`,
+        name: d.toLocaleString('default', { month: 'short' }),
+        Revenue: 0,
+        Sales: 0,
+      });
+    }
 
-    const weeklySales = [
-      { name: 'Mon', Amount: 400 },
-      { name: 'Tue', Amount: 300 },
-      { name: 'Wed', Amount: 800 },
-      { name: 'Thu', Amount: 600 },
-      { name: 'Fri', Amount: 1200 },
-      { name: 'Sat', Amount: 900 },
-      { name: 'Sun', Amount: 1400 }
-    ];
+    farmerOrders.forEach(order => {
+      const d = new Date(order.createdAt);
+      const key = `${d.getFullYear()}-${d.getMonth()}`;
+      const bucket = monthLabels.find(m => m.key === key);
+      if (bucket) {
+        order.items.forEach(item => {
+          if (item.farmer.toString() === farmerId) {
+            bucket.Revenue += item.price * item.quantity;
+            bucket.Sales   += item.quantity;
+          }
+        });
+      }
+    });
+
+    const monthlyRevenue = monthLabels.map(({ key, ...rest }) => ({
+      ...rest,
+      Revenue: Math.round(rest.Revenue),
+    }));
+
+    // 8. Real weekly sales (orders placed in the last 7 days)
+    const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+    const weeklyMap = {};
+    dayNames.forEach(d => (weeklyMap[d] = 0));
+
+    const sevenDaysAgo = new Date(now - 7 * 24 * 60 * 60 * 1000);
+    farmerOrders
+      .filter(o => new Date(o.createdAt) >= sevenDaysAgo)
+      .forEach(order => {
+        const dayName = dayNames[new Date(order.createdAt).getDay()];
+        order.items.forEach(item => {
+          if (item.farmer.toString() === farmerId) {
+            weeklyMap[dayName] += item.price * item.quantity;
+          }
+        });
+      });
+
+    const weeklySales = dayNames.map(name => ({
+      name,
+      Amount: Math.round(weeklyMap[name]),
+    }));
 
     res.json({
       summary: {
-        totalRevenue: Math.round(totalRevenue) || 14850,
-        totalOrders: farmerOrders.length || 24,
-        totalProducts: products.length || 8,
-        totalInventoryCount: totalInventoryCount || 2350,
-        lowStockCount: lowStockCount || 2,
-        unitsSold: totalUnitsSold || 345
+        totalRevenue:         Math.round(totalRevenue),
+        totalOrders:          farmerOrders.length,
+        totalProducts:        products.length,
+        totalInventoryCount:  totalInventoryCount,
+        lowStockCount:        lowStockCount,
+        unitsSold:            totalUnitsSold,
       },
       charts: {
         monthlyRevenue,
         weeklySales,
-        categoryBreakdown: categoryBreakdown.length > 0 ? categoryBreakdown : [
-          { name: 'Grains', value: 400 },
-          { name: 'Vegetables', value: 300 },
-          { name: 'Fruits', value: 300 },
-          { name: 'Dairy', value: 200 }
-        ]
-      }
+        categoryBreakdown,   // empty array [] when farmer has no products — handled on frontend
+      },
     });
   } catch (error) {
     console.error('Farmer analytics error:', error);
@@ -107,25 +134,25 @@ router.get('/farmer', protect, authorize('farmer'), async (req, res) => {
 // @access  Private/Admin
 router.get('/admin', protect, authorize('admin'), async (req, res) => {
   try {
-    const users = await UserModel.find({});
+    const users    = await UserModel.find({});
     const products = await ProductModel.find({});
-    const orders = await OrderModel.find({});
+    const orders   = await OrderModel.find({});
 
-    const totalFarmers = users.filter(u => u.role === 'farmer').length;
-    const totalCustomers = users.filter(u => u.role === 'customer').length;
-    const pendingFarmers = users.filter(u => u.role === 'farmer' && u.status === 'pending').length;
-    const totalRevenue = orders.reduce((acc, curr) => acc + curr.totalAmount, 0);
+    const totalFarmers    = users.filter(u => u.role === 'farmer').length;
+    const totalCustomers  = users.filter(u => u.role === 'customer').length;
+    const pendingFarmers  = users.filter(u => u.role === 'farmer' && u.status === 'pending').length;
+    const totalRevenue    = orders.reduce((acc, curr) => acc + curr.totalAmount, 0);
 
     res.json({
       summary: {
         totalFarmers,
         totalCustomers,
-        totalProducts: products.length,
-        totalOrders: orders.length,
-        totalRevenue: Math.round(totalRevenue) || 28940,
-        pendingApprovals: pendingFarmers
+        totalProducts:    products.length,
+        totalOrders:      orders.length,
+        totalRevenue:     Math.round(totalRevenue),
+        pendingApprovals: pendingFarmers,
       },
-      recentOrders: orders.slice(0, 5)
+      recentOrders: orders.slice(0, 5),
     });
   } catch (error) {
     res.status(500).json({ message: error.message });

@@ -6,13 +6,12 @@ import { protect, authorize } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// @desc    Verify Khalti payment and create order
+// @desc    Verify Khalti payment
 // @route   POST /api/orders/verify-khalti
 // @access  Private/Customer
 router.post('/verify-khalti', protect, authorize('customer'), async (req, res) => {
   const { token, amount } = req.body;
   try {
-    // Verify with Khalti API
     const khaltiRes = await fetch('https://khalti.com/api/v2/payment/verify/', {
       method: 'POST',
       headers: {
@@ -40,11 +39,9 @@ router.post('/', protect, authorize('customer'), async (req, res) => {
   if (!items || items.length === 0) {
     return res.status(400).json({ message: 'No items in order' });
   }
-
   if (!paymentMethod || !['cod', 'khalti'].includes(paymentMethod)) {
     return res.status(400).json({ message: 'Invalid payment method. Use cod or khalti.' });
   }
-
   if (paymentMethod === 'khalti' && !khaltiTransactionId) {
     return res.status(400).json({ message: 'Khalti transaction ID required for online payment.' });
   }
@@ -94,7 +91,7 @@ router.post('/', protect, authorize('customer'), async (req, res) => {
   }
 });
 
-// @desc    Get logged in user orders
+// @desc    Get logged-in customer's own orders
 // @route   GET /api/orders
 // @access  Private/Customer
 router.get('/', protect, authorize('customer'), async (req, res) => {
@@ -107,7 +104,22 @@ router.get('/', protect, authorize('customer'), async (req, res) => {
   }
 });
 
-// @desc    Get farmer orders
+// @desc    Get ALL orders on the platform (admin only)
+// @route   GET /api/orders/all
+// @access  Private/Admin
+// IMPORTANT: must be defined BEFORE /farmer and any future /:id routes so
+// Express does not treat the literal string "all" as a dynamic :id param.
+router.get('/all', protect, authorize('admin'), async (req, res) => {
+  try {
+    const orders = await OrderModel.find({});
+    orders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    res.json(orders);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// @desc    Get orders containing the logged-in farmer's products
 // @route   GET /api/orders/farmer
 // @access  Private/Farmer
 router.get('/farmer', protect, authorize('farmer'), async (req, res) => {
@@ -120,7 +132,9 @@ router.get('/farmer', protect, authorize('farmer'), async (req, res) => {
       const orderObj = typeof order.toObject === 'function' ? order.toObject() : order;
       return {
         ...orderObj,
-        items: orderObj.items.filter(item => item.farmer.toString() === req.user._id.toString())
+        items: orderObj.items.filter(
+          item => item.farmer.toString() === req.user._id.toString()
+        )
       };
     });
     tailoredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -138,7 +152,11 @@ router.put('/:id/status', protect, authorize('farmer', 'admin'), async (req, res
   try {
     const order = await OrderModel.findById(req.params.id);
     if (!order) return res.status(404).json({ message: 'Order not found' });
-    const updatedOrder = await OrderModel.findByIdAndUpdate(req.params.id, { orderStatus: status }, { new: true });
+    const updatedOrder = await OrderModel.findByIdAndUpdate(
+      req.params.id,
+      { orderStatus: status },
+      { new: true }
+    );
     await NotificationModel.create({
       recipient: order.customer,
       title: 'Order Status Update',

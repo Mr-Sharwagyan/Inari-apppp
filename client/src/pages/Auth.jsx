@@ -3,6 +3,21 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { useToast } from '../context/ToastContext';
 import { Tractor, User, Mail, Lock, Phone, MapPin, Eye, EyeOff } from 'lucide-react';
+  const validateEmail = (email) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validateNepalPhone = (phone) => {
+    return /^(98|97)\d{8}$/.test(phone);
+  };
+
+  const validateName = (name) => {
+    return /^[A-Za-z ]{3,}$/.test(name.trim());
+  };
+
+  const validatePassword = (password) => {
+    return /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password);
+  };
 
 const Auth = () => {
   const { login, register } = useAuth();
@@ -26,9 +41,36 @@ const Auth = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!email || !password || (!isLogin && !name)) {
+   if (!email || !password || (!isLogin && !name)) {
       showToast('Please fill in all required fields.', 'warning');
       return;
+    }
+
+    if (!validateEmail(email)) {
+      showToast('Invalid email format.', 'error');
+      return;
+    }
+
+    // 🚨 ONLY enforce strong password on REGISTER
+    if (!isLogin && !validatePassword(password)) {
+      showToast(
+        'Weak password. Use 8+ chars, uppercase, number & symbol.',
+        'error'
+      );
+      return;
+    }
+
+    // 🚨 ONLY validate name/phone on REGISTER
+    if (!isLogin) {
+      if (!validateName(name)) {
+        showToast('Name must be at least 3 letters (letters only).', 'error');
+        return;
+      }
+
+      if (phone && !validateNepalPhone(phone)) {
+        showToast('Phone must be valid 10-digit Nepali number.', 'error');
+        return;
+      }
     }
 
     setSubmitting(true);

@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
-// PRICE MARKUP: Customer pays farmer price × 1.90 (90% platform margin)
-export const CUSTOMER_MARKUP = 1.90;
+// PRICE MARKUP: Customer pays farmer price × 0.90 (10% platform margin)
+export const CUSTOMER_MARKUP = 1.01; // 10% markup on farmer price
 export const getCustomerPrice = (farmerPrice) => Math.round(farmerPrice * CUSTOMER_MARKUP * 100) / 100;
 
 const CartContext = createContext(null);
@@ -52,7 +52,7 @@ export const CartProvider = ({ children }) => {
 
   const itemsCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-  const shippingFee = subtotal > 100 || subtotal === 0 ? 0 : 15.00;
+  const shippingFee = subtotal >= 1000 ? 0 : 120;
   const estimatedTax = subtotal * 0.13; // 13% Nepal VAT
   const total = subtotal + shippingFee + estimatedTax;
 

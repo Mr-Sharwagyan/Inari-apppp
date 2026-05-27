@@ -65,7 +65,8 @@ const DashboardLayout = () => {
   ];
 
   const adminNavigation = [
-    { name: 'Approvals & Users', to: '/admin', icon: Users },
+    { name: 'Approvals & Users', to: '/admin',        icon: Users },
+    { name: 'All Orders',        to: '/admin/orders',  icon: ShoppingBag },
   ];
 
   const navigation = user?.role === 'admin' ? adminNavigation : farmerNavigation;

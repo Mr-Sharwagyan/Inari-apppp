@@ -174,12 +174,24 @@ const Events = () => {
                 </div>
 
                 {/* Footer */}
-                <div className="mt-auto pt-4 border-t border-stone-100 flex items-center justify-between">
-                  <div className="text-[10px] text-sage-400 font-bold uppercase">
-                    Active Market
-                  </div>
+                <div
+                  className={`text-[10px] font-bold uppercase px-2 py-1 rounded-full
+                    ${
+                      new Date() < new Date(event.startDate)
+                        ? "bg-yellow-100 text-yellow-700"
+                        : new Date() > new Date(event.endDate)
+                        ? "bg-red-100 text-red-600"
+                        : "bg-green-100 text-green-700"
+                    }`}
+                >
+                  {new Date() < new Date(event.startDate)
+                    ? "Not Started"
+                    : new Date() > new Date(event.endDate)
+                    ? "Ended"
+                    : "Active"}
+                </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 justify-end mt-3">
                     {(user?.role === "farmer" || user?.role === "admin") && (
                       <button
                         onClick={(e) => handleDelete(e, event._id)}
@@ -189,18 +201,17 @@ const Events = () => {
                         <Trash2 className="w-4 h-4" />
                       </button>
                     )}
-
                     <Link
                       to={`/events/${event._id}`}
                       className="bg-primary-900 hover:bg-primary-950 text-white px-3 py-2 rounded-xl text-xs font-semibold flex items-center gap-1"
                     >
                       <ShoppingBag className="w-4 h-4" />
-                      View Market
+                      View Events
                     </Link>
                   </div>
                 </div>
               </div>
-            </div>
+            
           ))}
         </div>
       )}

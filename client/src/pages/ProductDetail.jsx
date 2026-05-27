@@ -112,7 +112,7 @@ const ProductDetail = () => {
             {/* Price display */}
             <div className="flex items-baseline gap-2 py-2">
               <span className="text-3xl font-extrabold text-primary-950">Rs.{getCustomerPrice(product.price).toFixed(2)}</span>
-              <span className="text-[11px] text-sage-400 font-semibold block mt-0.5">Farmer price: Rs.{product.price.toFixed(2)}</span>
+              
               <span className="text-xs text-sage-450 font-semibold">per {product.unit}</span>
             </div>
 
