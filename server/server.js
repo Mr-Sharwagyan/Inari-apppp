@@ -17,7 +17,9 @@ import notificationRoutes from './routes/notificationRoutes.js';
 import analyticsRoutes from './routes/analyticsRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import eventRoutes from './routes/eventRoutes.js';
-
+import communityRoutes from './routes/communityRoutes.js';
+import kalimatiRoutes from './routes/kalimatiRoutes.js';
+import chatbotRoutes from "./routes/chatbotRoutes.js";
 // Load ENV
 dotenv.config();
 
@@ -50,6 +52,9 @@ const startServer = async () => {
   app.use('/api/analytics', analyticsRoutes);
   app.use('/api/admin', adminRoutes);
   app.use('/api/events', eventRoutes);
+  app.use('/api/community', communityRoutes);
+  app.use('/api/kalimati', kalimatiRoutes);
+  app.use("/api/chatbot", chatbotRoutes);
   // Health check
   app.get('/api/health', (req, res) => {
     res.json({

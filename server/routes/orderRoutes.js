@@ -168,5 +168,56 @@ router.put('/:id/status', protect, authorize('farmer', 'admin'), async (req, res
     res.status(500).json({ message: error.message });
   }
 });
+// @desc    Update delivery location (ADMIN / FARMER)
+// @route   PUT /api/orders/delivery/location/:id
+// @access  Private/Admin/Farmer
+router.put(
+  '/delivery/location/:id',
+  protect,
+  authorize('admin', 'farmer'),
+  async (req, res) => {
+    const { lat, lng } = req.body;
+
+    try {
+      const order = await OrderModel.findById(req.params.id);
+
+      if (!order) {
+        return res.status(404).json({ message: 'Order not found' });
+      }
+
+      const updatedOrder = await OrderModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          deliveryLocation: {
+            lat,
+            lng,
+            updatedAt: new Date()
+          }
+        },
+        { new: true }
+      );
+
+      res.json(updatedOrder);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  }
+);
+// @desc    Get single order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+router.get('/:id', protect, async (req, res) => {
+  try {
+    const order = await OrderModel.findById(req.params.id);
+
+    if (!order) {
+      return res.status(404).json({ message: 'Order not found' });
+    }
+
+    res.json(order);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 export default router;

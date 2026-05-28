@@ -1,0 +1,42 @@
+[
+  {
+    "_id": "4fy3xtossmpnz71qc",
+    "createdAt": "2026-05-27T11:23:25.955Z",
+    "user": "6a11c7bd2182186de05a0b74",
+    "userName": "Arthur Customer",
+    "userRole": "customer",
+    "message": "hello we shoudlnt cut the treesss",
+    "topic": "general",
+    "likes": [
+      "6a11c7bd2182186de05a0b74",
+      "6a11c7bd2182186de05a0b70"
+    ],
+    "updatedAt": "2026-05-28T03:10:28.904Z"
+  },
+  {
+    "_id": "z0m7ykmihmpo85265",
+    "createdAt": "2026-05-27T15:33:49.756Z",
+    "user": "6a16b271f5db6827045facb3",
+    "userName": "Sidd Farm",
+    "userRole": "farmer",
+    "message": "I know farming very well.insecticdes are chemicals",
+    "topic": "general",
+    "likes": [
+      "6a11c7bd2182186de05a0b74"
+    ],
+    "updatedAt": "2026-05-27T15:35:16.286Z"
+  },
+  {
+    "_id": "3ztfes6vdmpp61wjn",
+    "createdAt": "2026-05-28T07:23:09.442Z",
+    "user": "6a11c7bd2182186de05a0b74",
+    "userName": "Arthur Customer",
+    "userRole": "customer",
+    "message": "'hellloooo",
+    "topic": "general",
+    "likes": [
+      "6a11c7bd2182186de05a0b74"
+    ],
+    "updatedAt": "2026-05-28T07:26:56.875Z"
+  }
+]

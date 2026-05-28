@@ -9,6 +9,7 @@ import { useWishlist } from '../context/WishlistContext';
 import api from '../services/api';
 
 
+
 // ─── Google Fonts ─────────────────────────────────────────────────────────────
 const FONTS = `@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@400;500;600;700;800&display=swap');`;
 
@@ -243,6 +244,29 @@ const OrderRow = ({ order }) => {
         <StatusIcon size={11} />
         {cfg.label}
       </div>
+
+      {['shipped', 'processing'].includes(order.orderStatus) && (
+        <Link
+          to={`/track/${order._id}`}
+          style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: 4,
+            background: '#eff6ff',
+            color: '#3b82f6',
+            border: '1px solid #bfdbfe',
+            borderRadius: 20,
+            padding: '4px 10px',
+            fontSize: 11,
+            fontWeight: 700,
+            textDecoration: 'none',
+            flexShrink: 0,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          🗺️ Track
+        </Link>
+      )}
     </div>
   );
 };

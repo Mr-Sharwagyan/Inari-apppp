@@ -22,8 +22,10 @@ import EventsMarketplace from './pages/Events.jsx';
 import CreateEvent from './pages/CreateEvent.jsx';
 import EventDetail from './pages/EventDetail.jsx';
 import AdminOrders from './pages/AdminOrders';
-
+import Community from './pages/Community.jsx';
 import { WishlistProvider } from './context/WishlistContext';
+import AdminInventory from './pages/AdminInventory.jsx';
+import DeliveryMap from './pages/DeliveryMap';
 
 const App = () => {
   return (
@@ -41,7 +43,7 @@ const App = () => {
         <Route path="sla" element={<Sla />} />
         <Route path="events" element={<EventsMarketplace />} />
         <Route path="events/:id" element={<EventDetail />} />
-
+        <Route path="community" element={<Community />} />
 
         {/* Protected Customer Dashboard */}
         <Route
@@ -49,6 +51,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={['customer']}>
               <CustomerDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="track/:orderId"
+          element={
+            <ProtectedRoute allowedRoles={['customer']}>
+              <DeliveryMap />
             </ProtectedRoute>
           }
         />
@@ -88,6 +98,7 @@ const App = () => {
       >
         <Route index element={<AdminDashboard />} />
         <Route path="orders" element={<AdminOrders />} />
+        <Route path="inventory" element={<AdminInventory />} />
       </Route>
 
       {/* Fallback Redirect */}

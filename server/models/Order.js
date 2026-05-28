@@ -28,6 +28,11 @@ const OrderSchema = new mongoose.Schema({
     enum: ['pending', 'processing', 'shipped', 'delivered', 'cancelled'],
     default: 'pending'
   },
+  deliveryLocation: {
+    lat: { type: Number, default: null },
+    lng: { type: Number, default: null },
+    updatedAt: { type: Date, default: null }
+  },
   createdAt: { type: Date, default: Date.now }
 });
 
@@ -59,6 +64,7 @@ const OrderModel = {
     return MongoOrder.findByIdAndDelete(id);
   }
 };
+
 
 export default OrderModel;
 export { MongoOrder };

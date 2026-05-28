@@ -67,6 +67,7 @@ const DashboardLayout = () => {
   const adminNavigation = [
     { name: 'Approvals & Users', to: '/admin',        icon: Users },
     { name: 'All Orders',        to: '/admin/orders',  icon: ShoppingBag },
+    { name: 'Manage Inventory', to: '/admin/inventory', icon: Package },
   ];
 
   const navigation = user?.role === 'admin' ? adminNavigation : farmerNavigation;
@@ -152,7 +153,7 @@ const DashboardLayout = () => {
             title="Go to Marketplace Shop"
           >
             <Home className="w-5 h-5 text-sage-400" />
-            {!collapsed && <span>View Marketplace</span>}
+            {!collapsed && <span>Go to Home</span>}
           </Link>
           <button
             onClick={() => {
@@ -207,7 +208,7 @@ const DashboardLayout = () => {
 
             <div className="border-t border-stone-200 pt-4 space-y-2">
               <Link
-                to="/"
+                to="/shop"
                 onClick={() => setMobileOpen(false)}
                 className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold text-sage-600 hover:bg-stone-50"
               >
@@ -257,7 +258,7 @@ const DashboardLayout = () => {
           <div className="flex items-center space-x-4 ml-auto">
             {/* Back to Home Button */}
             <Link 
-              to="/" 
+              to="/shop" 
               className="text-xs font-bold text-primary-800 bg-primary-50 hover:bg-primary-100 px-3.5 py-2 rounded-xl transition-all border border-primary-200/30 flex items-center gap-1.5"
             >
               <Home className="w-3.5 h-3.5" />

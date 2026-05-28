@@ -15,6 +15,7 @@ const FarmerOrders = () => {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState('all');
+  const [locatingOrderId, setLocatingOrderId] = useState(null);
 
   const fetchOrders = async () => {
     setLoading(true);
@@ -43,6 +44,40 @@ const FarmerOrders = () => {
       console.error('Order status update error:', err);
       showToast('Failed to update order status.', 'error');
     }
+  };
+
+  const handleUpdateLocation = (orderId) => {
+    if (!navigator.geolocation) {
+      showToast('Geolocation is not supported by your browser.', 'error');
+      return;
+    }
+    setLocatingOrderId(orderId);
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude: lat, longitude: lng } = position.coords;
+        try {
+          await api.put(`/orders/delivery/location/${orderId}`, { lat, lng });
+          showToast('📍 Delivery location updated!', 'success');
+          setOrders(prev =>
+            prev.map(o =>
+              o._id === orderId
+                ? { ...o, deliveryLocation: { lat, lng, updatedAt: new Date().toISOString() } }
+                : o
+            )
+          );
+        } catch (err) {
+          console.error('Location update error:', err);
+          showToast('Failed to update delivery location.', 'error');
+        } finally {
+          setLocatingOrderId(null);
+        }
+      },
+      (err) => {
+        console.error('Geolocation error:', err);
+        showToast('Could not get your location. Check browser permissions.', 'error');
+        setLocatingOrderId(null);
+      }
+    );
   };
 
   const getStatusStyle = (status) => {
@@ -196,6 +231,21 @@ const FarmerOrders = () => {
                       <option value="delivered">Complete (Delivered)</option>
                       <option value="cancelled">Cancel Order</option>
                     </select>
+
+                    {/* Update Delivery Location */}
+                    <button
+                      onClick={() => handleUpdateLocation(order._id)}
+                      disabled={locatingOrderId === order._id}
+                      title="Share your current GPS location for this order"
+                      className="flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold border transition-all bg-indigo-50 text-indigo-700 border-indigo-200 hover:bg-indigo-100 disabled:opacity-60 disabled:cursor-not-allowed"
+                    >
+                      <MapPin className="w-3.5 h-3.5" />
+                      {locatingOrderId === order._id ? 'Locating…' : (
+                        <>
+                          {order.deliveryLocation?.lat ? '📍 Update Location' : '📍 Share Location'}
+                        </>
+                      )}
+                    </button>
                   </div>
                 </div>
 
@@ -249,6 +299,19 @@ const FarmerOrders = () => {
                         {order.paymentStatus}
                       </span>
                     </div>
+
+                    {order.deliveryLocation?.lat && (
+                      <div className="pt-2 border-t border-stone-200/50 flex justify-between items-center text-[10px] font-bold">
+                        <span className="text-sage-400 uppercase flex items-center gap-1">
+                          <MapPin className="w-3 h-3" /> GPS Location
+                        </span>
+                        <span className="text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded-full border border-indigo-150">
+                          {order.deliveryLocation.updatedAt
+                            ? new Date(order.deliveryLocation.updatedAt).toLocaleTimeString()
+                            : 'Pinned'}
+                        </span>
+                      </div>
+                    )}
                   </div>
 
                 </div>

@@ -81,6 +81,15 @@ const MarketplaceLayout = () => {
                 Marketplace
               </Link>
               <Link
+                to="/community"
+                className={`text-sm font-semibold transition-colors duration-200 ${
+                  location.pathname === '/community' ? 'text-primary-800' : 'text-sage-500 hover:text-primary-900'
+                }`}
+              >
+                Community
+              </Link>
+              
+              <Link
                 to="/events"
                 className={`text-sm font-semibold transition-colors duration-200 ${
                   location.pathname === '/events' ? 'text-primary-800' : 'text-sage-500 hover:text-primary-900'
